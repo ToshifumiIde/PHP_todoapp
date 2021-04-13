@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS todos;
+
 CREATE TABLE todos(
   id INT NOT NULL AUTO_INCREMENT,
   is_done BOOL DEFAULT false,
