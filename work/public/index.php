@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
       default:
       exit;
   }
-  addTodo($pdo);
+  // addTodo($pdo);
   header("Location:" . SITE_URL );
   exit;
 }
@@ -47,26 +47,27 @@ $todos = getTodos($pdo);
     <h1>Todos</h1>
     <form action="?action=add" method="post">
       <input type="text" name="title" placeholder="Type new todo.">
-      <input type="hidden" name="token" value="<?=h($_SESSION["token"]); ?>">
+      <input type="hidden" name="token" value="<?=Utils::h($_SESSION["token"]); ?>">
       <!-- <button>Add</button> -->
     </form>
+
     <ul>
       <?php foreach($todos as $todo):?>
         <li>
         <form action="?action=toggle" method="post">
-          <input type="checkbox" <?=$todo->is_done ?"checked" : "";?> >
-          <input type="hidden" name="id" value="<?=h($todo->id) ?>" >
-          <input type="hidden" name="token" value="<?=h($_SESSION['token']); ?>">
+          <input type="checkbox" <?=$todo->is_done ? "checked" : "";?> >
+          <input type="hidden" name="id" value="<?=Utils::h($todo->id) ?>" >
+          <input type="hidden" name="token" value="<?=Utils::h($_SESSION['token']); ?>">
         </form>
         
           <span class="<?=$todo->is_done ? "done" : "" ;?>">
-            <?=h($todo->title); ?>
+            <?=Utils::h($todo->title); ?>
           </span>
 
         <form action="?action=delete" method="post" class="delete-form">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($todo->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($todo->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
         
         </li>

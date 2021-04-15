@@ -1,10 +1,5 @@
 <?php
 
-function h($str)
-{
-  return htmlspecialchars($str,ENT_QUOTES ,"UTF-8");
-}
-
 function createToken()
 {
   if(!isset($_SESSION["token"])){
@@ -44,9 +39,6 @@ function deleteTodo($pdo)
   $stmt->execute();
 }
 
-
-
-
 function getTodos($pdo)
 {
   $stmt = $pdo->query("SELECT * FROM todos ORDER BY id DESC");
@@ -60,11 +52,10 @@ function addTodo($pdo)
   if($title === ""){
     return ;
   }
-  $stmt = $pdo->prepare("INSERT INTO todos(title) VALUES(:title)");
+  $stmt = $pdo->prepare("INSERT INTO todos (title) VALUES (:title)");
   $stmt->bindValue("title" , $title , PDO::PARAM_STR);
   $stmt->execute();
 }
-
 
 function getPdoInstance(){
 
