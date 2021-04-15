@@ -1,10 +1,50 @@
-ul{
-  list-style:none;
+body {
+  font-family: Arial, sans-serif;
+}
+
+main {
+  width: 320px;
+  margin: 32px auto;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+input[type="checkbox"] {
+  margin-right: 12px;
+}
+
+ul {
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.done{
+h1 {
+  font-size: 24px;
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.done {
   text-decoration: line-through;
-  color:#ccc;
+  color: #ccc;
+}
+
+li {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.delete {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.delete-form {
+  margin-left: auto;
+  padding-left: 8px;
 }
