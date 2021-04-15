@@ -1,71 +1,11 @@
 <?php
-// require("../../work/app/main.sql");
-
-session_start();
-
-define("DSN" , "mysql:host=db; dbname=myapp;charset=utf8mb4");
-define("DB_USER" , "myappuser");
-define("DB_PASS" , "myapppass");
-// define("SITE_URL" , "http://localhost:8562");
-define("SITE_URL" , "http://" . $_SERVER["HTTP_HOST"] );
+require_once(__DIR__ . "/../app/config.php");
+//現在のファイルが存在するディレクトリの絶対パスを示す特殊なキーワードを使う。
+//__DIR__は最後にスラッシュがつかないから、スラッシュの付け忘れに注意
 
 createToken();
 
-try{
-  $pdo = new PDO(
-    DSN, 
-    DB_USER,
-    DB_PASS,
-    [
-      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-      PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_OBJ,
-      PDO::ATTR_EMULATE_PREPARES=>false,
-    ]
-  );
-}catch(PDOException $e){
-  echo $e->getMessage();
-  exit;
-};
-
-function h($str)
-{
-  return htmlspecialchars($str,ENT_QUOTES ,"UTF-8");
-}
-
-function createToken()
-{
-  if(!isset($_SESSION["token"])){
-    $_SESSION["token"] = bin2hex(random_bytes(32));
-  }
-}
-
-function validateToken()
-{
-  if(
-    empty($_SESSION["token"])||
-    $_SESSION["token"] !== filter_input(INPUT_POST, "token")
-  ){
-    exit("Invalid post request");
-  }
-}
-
-function getTodos($pdo)
-{
-  $stmt = $pdo->query("SELECT * FROM todos ORDER BY id DESC");
-  $todos = $stmt->fetchAll();
-return $todos;
-}
-
-function addTodo($pdo)
-{
-  $title = trim(filter_input(INPUT_POST, "title"));
-  if($title === ""){
-    return ;
-  }
-  $stmt = $pdo->prepare("INSERT INTO todos(title) VALUES(:title)");
-  $stmt->bindValue("title" , $title , PDO::PARAM_STR);
-  $stmt->execute();
-}
+$pdo = getPdoInstance();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
   validateToken();
