@@ -3,12 +3,12 @@ require_once(__DIR__ . "/../app/config.php");
 //現在のファイルが存在するディレクトリの絶対パスを示す特殊なキーワードを使う。
 //__DIR__は最後にスラッシュがつかないから、スラッシュの付け忘れに注意
 
-createToken();
+Token::create();
 
 $pdo = getPdoInstance();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET , "action");
   switch($action){
     case "add":
