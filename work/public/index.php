@@ -3,34 +3,11 @@ require_once(__DIR__ . "/../app/config.php");
 //現在のファイルが存在するディレクトリの絶対パスを示す特殊なキーワードを使う。
 //__DIR__は最後にスラッシュがつかないから、スラッシュの付け忘れに注意
 
-Token::create();
-
 $pdo = Database::getInstance();
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-  Token::validate();
-  $action = filter_input(INPUT_GET , "action");
-  switch($action){
-    case "add":
-      addTodo($pdo);
-      break;
-    case "toggle":
-      toggleTodo($pdo);
-      break;
-    case "delete":
-      deleteTodo($pdo);
-      break;
-      default:
-      exit;
-  }
-  // addTodo($pdo);
-  header("Location:" . SITE_URL );
-  exit;
-}
-
-$todos = getTodos($pdo);
-// var_dump($todos);
-// exit;
+$todo = new Todo($pdo);
+$todo->processPost();
+$todos = $todo->getAll();
 
 ?>
 
