@@ -7,6 +7,11 @@ main {
   margin: 32px auto;
 }
 
+header{
+  display:flex;
+  justify-content: space-between;
+}
+
 input[type="text"] {
   width: 100%;
   padding: 4px;
@@ -39,9 +44,11 @@ li {
   margin-bottom: 8px;
 }
 
-.delete {
+.delete,
+.purge {
   color: #ccc;
   cursor: pointer;
+  font-size:14px;
 }
 
 .delete-form {

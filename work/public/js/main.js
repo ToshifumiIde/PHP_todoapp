@@ -19,4 +19,11 @@
       span.parentNode.submit();
     });
   });
+  const purge = document.querySelector(".purge");
+  purge.addEventListener("click", () => {
+    if(!confirm("Are You Sure ?")){
+      return;
+    }
+    purge.parentNode.submit();
+  });
 }

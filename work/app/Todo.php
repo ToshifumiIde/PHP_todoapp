@@ -26,12 +26,20 @@ class Todo{
         case "delete":
           $this->delete();
           break;
+        case "purge":
+          $this->purge();
+          break;
           default:
           exit;
       }
       header("Location:" . SITE_URL );
       exit;
     }
+  }
+
+  private function purge()
+  {
+    $this->pdo->query("DELETE FROM todos WHERE is_done = 1");
   }
 
   private function delete()
