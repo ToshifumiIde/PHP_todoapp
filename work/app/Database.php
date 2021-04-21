@@ -9,7 +9,7 @@ class Database{
 
   try{
     if(!isset(self::$instance)){
-      self::$instance = new PDO(
+      self::$instance = new \PDO(
         DSN, 
         DB_USER,
         DB_PASS,

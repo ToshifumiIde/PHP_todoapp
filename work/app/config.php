@@ -13,12 +13,19 @@ define("SITE_URL" , "http://" . $_SERVER["HTTP_HOST"] );
 // require_once(__DIR__ . "/Todo.php");
 // spl_autoload_register()で以下に書き換え
 spl_autoload_register(function($class){
-  $fileName = sprintf(__DIR__ . "/%s.php" , $class);
+  $prefix = "MyApp\\";
 
-  if(file_exists($fileName)){
-    require($fileName);
-  } else {
-    echo "File not found:" . $fileName;
-    exit;
+  if(strpos($class , $prefix) === 0){
+    // MyApp\Database
+    // $fileName = sprintf(__DIR__ . "/%s.php" , substr($class,6));
+    $fileName = sprintf(__DIR__ . "/%s.php" , substr($class,strlen($prefix)));
+    if(file_exists($fileName)){
+      require($fileName);
+    } else {
+      echo "File not found:" . $fileName;
+      exit;
+    }
   }
+
+
 });
