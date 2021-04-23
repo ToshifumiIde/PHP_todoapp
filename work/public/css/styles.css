@@ -34,7 +34,7 @@ h1 {
   margin: 0 0 16px;
 }
 
-.done {
+input[type=checkbox]:checked + span {
   text-decoration: line-through;
   color: #ccc;
 }
