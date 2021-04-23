@@ -44,8 +44,6 @@ $todos = $todo->getAll();
     <ul>
       <?php foreach($todos as $todo):?>
         <li>
-        <!-- <form action="?action=toggle" method="post"> -->
-        <!-- </form> -->
           <input 
             type="checkbox"
             data-id="<?=Utils::h($todo->id) ?>"
