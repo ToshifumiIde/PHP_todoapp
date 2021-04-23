@@ -6,14 +6,23 @@
 
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
-      checkbox.parentNode.submit();
+      const url = "?action=toggle"; //fetchするデータを定義
+      const option = {
+        method: "POST",
+        body: new URLSearchParams({
+          id: checkbox.dataset.id,
+          token: checkbox.dataset.token,
+        }),
+      }; //fetchデータを作成、post形式でidとtokenを送信しているため、内容をオブジェクト形式で渡す。
+      fetch(url, option); //JSのfetch()メソッドを使用
+      // checkbox.parentNode.submit(); //checkboxが変更される度に、checkboxの親要素であるformをsubmitしている。
     });
   });
 
   const deletes = document.querySelectorAll(".delete");
   deletes.forEach((span) => {
     span.addEventListener("click", () => {
-      if(!confirm("Are You Sure ?")){
+      if (!confirm("Are You Sure ?")) {
         return;
       }
       span.parentNode.submit();
@@ -21,7 +30,7 @@
   });
   const purge = document.querySelector(".purge");
   purge.addEventListener("click", () => {
-    if(!confirm("Are You Sure ?")){
+    if (!confirm("Are You Sure ?")) {
       return;
     }
     purge.parentNode.submit();
