@@ -32,7 +32,6 @@ class Todo{
           default:
           exit;
       }
-      header("Location:" . SITE_URL );
       exit;
     }
   }

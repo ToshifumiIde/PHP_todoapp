@@ -14,7 +14,8 @@
           token: checkbox.dataset.token,
         }),
       }; //fetchデータを作成、post形式でidとtokenを送信しているため、内容をオブジェクト形式で渡す。
-      fetch(url, option); //JSのfetch()メソッドを使用
+      fetch(url, option); //JSのfetch()メソッドを使用。
+      checkbox.nextElementSibling.classList.toggle("done");
     });
   });
 
