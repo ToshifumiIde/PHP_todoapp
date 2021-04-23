@@ -24,7 +24,16 @@
       if (!confirm("Are You Sure ?")) {
         return;
       }
-      span.parentNode.submit();
+      const url = "?action=delete";
+      const option = {
+        method: "POST",
+        body: new URLSearchParams({
+          id: span.dataset.id,
+          token: span.dataset.token,
+        }),
+      };
+      fetch(url, option);
+      span.parentNode.remove();
     });
   });
   const purge = document.querySelector(".purge");
