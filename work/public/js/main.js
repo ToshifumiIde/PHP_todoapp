@@ -7,7 +7,7 @@
 
   input.focus(); //画面更新時にformにfocus()メソッドを実行し、focusが当たるようにする。
 
-  const addTodo = function (id) {
+  const addTodo = function (id, titleValue) {
     //DOM操作で作成したいtodoの要素は下記の通り
     //<li data-id="">
     //<input type="checkbox">
@@ -21,7 +21,7 @@
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     const title = document.createElement("span");
-    title.textContent = input.value;
+    title.textContent = titleValue;
     const deleteSpan = document.createElement("span");
     deleteSpan.textContent = "x";
     deleteSpan.classList.add("delete");
@@ -36,11 +36,13 @@
 
   document.querySelector("form").addEventListener("submit", (e) => {
     e.preventDefault();
+
+    const title = input.value;//todoに追加する値をfetchするより先に取得しておく（非同期処理の円滑化）
     const url = "?action=add"; //fetchするデータを定義
     const option = {
       method: "POST",
       body: new URLSearchParams({
-        title: input.value,
+        title: title,
         token: token,
       }),
     };
@@ -48,7 +50,7 @@
       .then((response) => response.json())
       .then((json) => {
         console.log(json.id);
-        addTodo(json.id);
+        addTodo(json.id, title);
       }); //JSのfetch()メソッドを使用。php側でidの送信を終えた後、生成したidを取得する。
     input.value = "";
     input.focus();
