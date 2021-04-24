@@ -11,7 +11,7 @@
       const option = {
         method: "POST",
         body: new URLSearchParams({
-          id: checkbox.dataset.id,
+          id: checkbox.parentNode.dataset.id,
           token: token,
         }),
       }; //fetchデータを作成、post形式でidとtokenを送信しているため、内容をオブジェクト形式で渡す。
@@ -29,7 +29,7 @@
       const option = {
         method: "POST",
         body: new URLSearchParams({
-          id: span.dataset.id,
+          id: span.parentNode.dataset.id,
           token: token,
         }),
       };
