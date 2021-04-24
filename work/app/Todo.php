@@ -18,7 +18,9 @@ class Todo{
       $action = filter_input(INPUT_GET , "action");
       switch($action){
         case "add":
-          $this->add();
+          $id = $this->add();
+          header("Content-Type: application/json");
+          echo json_encode(['id'=>$id]);
           break;
         case "toggle":
           $this->toggle();
@@ -52,6 +54,18 @@ class Todo{
     $stmt->execute();
   }
 
+  private function add()
+  {
+    $title = trim(filter_input(INPUT_POST, "title"));
+    if($title === ""){
+      return ;
+    }
+    $stmt = $this->pdo->prepare("INSERT INTO todos (title) VALUES (:title)");
+    $stmt->bindValue("title" , $title , \PDO::PARAM_STR);
+    $stmt->execute();
+    return (int) $this->pdo->lastInsertId();
+  }
+
   private function toggle()
   {
     $id = filter_input(INPUT_POST, "id");
@@ -61,17 +75,6 @@ class Todo{
 
     $stmt = $this->pdo->prepare("UPDATE todos SET is_done = NOT is_done WHERE id = :id");
     $stmt->bindValue("id" , $id , \PDO::PARAM_INT);
-    $stmt->execute();
-  }
-
-  private function add()
-  {
-    $title = trim(filter_input(INPUT_POST, "title"));
-    if($title === ""){
-      return ;
-    }
-    $stmt = $this->pdo->prepare("INSERT INTO todos (title) VALUES (:title)");
-    $stmt->bindValue("title" , $title , \PDO::PARAM_STR);
     $stmt->execute();
   }
 

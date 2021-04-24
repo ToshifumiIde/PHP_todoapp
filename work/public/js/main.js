@@ -1,9 +1,31 @@
 "use strict";
 
 {
-  console.log("こんにちは！");
   const token = document.querySelector("main").dataset.token;
   const checkboxes = document.querySelectorAll("input[type='checkbox']");
+  const input = document.querySelector('[name="title"]');
+
+  input.focus();//画面更新時にformにfocus()メソッドを実行し、focusが当たるようにする。
+
+  document.querySelector("form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const url = "?action=add"; //fetchするデータを定義
+    const option = {
+      method: "POST",
+      body: new URLSearchParams({
+        title: input.value,
+        token: token,
+      }),
+    };
+    fetch(url, option)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json.id);
+      }); //JSのfetch()メソッドを使用。php側でidの送信を終えた後、生成したidを取得する。
+    input.value = "";
+    input.focus();
+    console.log("Finished!!");
+  });
 
   checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
