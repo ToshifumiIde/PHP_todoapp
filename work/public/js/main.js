@@ -5,7 +5,34 @@
   const checkboxes = document.querySelectorAll("input[type='checkbox']");
   const input = document.querySelector('[name="title"]');
 
-  input.focus();//画面更新時にformにfocus()メソッドを実行し、focusが当たるようにする。
+  input.focus(); //画面更新時にformにfocus()メソッドを実行し、focusが当たるようにする。
+
+  const addTodo = function (id) {
+    //DOM操作で作成したいtodoの要素は下記の通り
+    //<li data-id="">
+    //<input type="checkbox">
+    //<span></span>
+    //<span class="delete" >x</span>
+    //</li>
+
+    //要素の生成
+    const li = document.createElement("li");
+    li.dataset.id = id;
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    const title = document.createElement("span");
+    title.textContent = input.value;
+    const deleteSpan = document.createElement("span");
+    deleteSpan.textContent = "x";
+    deleteSpan.classList.add("delete");
+    //要素を組み立てる
+    li.appendChild(checkbox);
+    li.appendChild(title);
+    li.appendChild(deleteSpan);
+    //ulの最初の子要素として追加する。
+    const ul = document.querySelector("ul");
+    ul.insertBefore(li, ul.firstChild);
+  };
 
   document.querySelector("form").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -21,10 +48,10 @@
       .then((response) => response.json())
       .then((json) => {
         console.log(json.id);
+        addTodo(json.id);
       }); //JSのfetch()メソッドを使用。php側でidの送信を終えた後、生成したidを取得する。
     input.value = "";
     input.focus();
-    console.log("Finished!!");
   });
 
   checkboxes.forEach((checkbox) => {
