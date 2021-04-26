@@ -20,10 +20,12 @@ class Todo{
         case "add":
           $id = $this->add();
           header("Content-Type: application/json");
-          echo json_encode(['id'=>$id]);
+          echo json_encode(['id' => $id]);
           break;
         case "toggle":
-          $this->toggle();
+          $isDone = $this->toggle();
+          header("Content-Type: application/json");
+          echo json_encode(['is_done' => $isDone]);
           break;
         case "delete":
           $this->delete();
@@ -31,7 +33,7 @@ class Todo{
         case "purge":
           $this->purge();
           break;
-          default:
+        default:
           exit;
       }
       exit;
@@ -73,15 +75,26 @@ class Todo{
       return;
     }
 
+    $stmt = $this->pdo->prepare("SELECT * FROM todos WHERE id =:id ");
+    $stmt->bindValue("id" , $id , \PDO::PARAM_INT);
+    $stmt->execute();
+    $todo = $stmt->fetch();
+    if(empty($todo)){
+      header("HTTP",true,404);//HTTP status code
+      exit;
+    }
+
     $stmt = $this->pdo->prepare("UPDATE todos SET is_done = NOT is_done WHERE id = :id");
     $stmt->bindValue("id" , $id , \PDO::PARAM_INT);
     $stmt->execute();
+
+    return (boolean) !$todo->is_done;
   }
 
   public function getAll()
   {
     $stmt = $this->pdo->query("SELECT * FROM todos ORDER BY id DESC");
     $todos = $stmt->fetchAll();
-  return $todos;
+    return $todos;
   }
 }
